@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('constructor-genrator-ts', () => {
+	let disposable = vscode.commands.registerCommand('constructor-genrator-ts.start', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello from constructor-genrator-ts!');
@@ -79,17 +79,17 @@ export function createConstructor(text: string) {
         
         // if words == ["private", "String", "name"];
         if (words.length > 2) {
-            type = words[1];
-            attribute = words[2];
-            Attribute = toPascalCase(words[2]);
+            type = words[2];
+            attribute = words[1].replace(':',' ');
+            Attribute = toPascalCase(words[1]);
 
             create = true;
         }
         // if words == ["String", "name"];
         else if (words.length === 2) {
-            type = words[0];
-            attribute = words[1];
-            Attribute = toPascalCase(words[1]);
+            type = words[1];
+            attribute = words[0].replace(':',' ');
+            Attribute = toPascalCase(words[0]);
             
             create = true;            
         }
@@ -104,55 +104,24 @@ export function createConstructor(text: string) {
 
         if (create) {
 
-            let paramCode = `\t ${Attribute}: type\n`;
-			let functionCode = `\t this.${Attribute} = ${Attribute};\n`;
+            let paramCode = `\t\t${attribute}: ${type},\n`;
+			let functionCode = `\t this.${attribute} = ${attribute};\n`;
 
             generatedParamCode += paramCode;
-			generatedAddFiledCode + functionCode;
+			generatedAddFiledCode += functionCode;
         }
     }
 
-	const generatedCode = `constructor(\n${generatedParamCode}\n) {\n${generatedAddFiledCode}}`;
+	const generatedCode = `\n\n\tconstructor(\n${generatedParamCode}) {\n${generatedAddFiledCode}}`;
 
 	return generatedCode;
 }
 
-// class test {
-// 	public abs: string | undefined;
-// 	public abc: string | undefined;
-// 	public abt: string | undefined;
-
-// 	constructor
-
-// 	public abs: getString() {
-// 	return this.string;
-// }
-
-// 	public void setString(abs: string) {
-// 	this.string = string;
-// }
-
-// 	public abc: getString() {
-// 	return this.string;
-// }
-
-// 	public void setString(abc: string) {
-// 	this.string = string;
-// }
-
-// 	public abt: getString() {
-// 	return this.string;
-// }
-
-// 	public void setString(abt: string) {
-// 	this.string = string;
-// }
-
-
-// }
-
 // This method is called when your extension is deactivated
 export function deactivate() {}
 
-exports.activate = activate;
-exports.deactivate = deactivate;
+module.exports = {
+    activate,
+    deactivate,
+}
+
