@@ -58,8 +58,15 @@ function toPascalCase(str: string)
     return str.replace(/\w+/g,w => w[0].toUpperCase() + w.slice(1));
 }
 
+function removeAnotation(text: string): string {
+    text = text.replace(/@\w+\([^)]*\)\s*|\@\w+\s*/g, '');
+    // text = text.replace(/@\w+\({[\s\S]*?\}\)\s*/g, '');
+
+    return text
+}
 
 export function createConstructor(text: string) {
+    text = removeAnotation(text);
 	let properties = text.split(/\r?\n/).filter(x => x.length > 2).map(x => x.replace(';', ''));
 
 	let generatedParamCode = ``;

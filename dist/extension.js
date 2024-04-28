@@ -74,7 +74,13 @@ exports.activate = activate;
 function toPascalCase(str) {
     return str.replace(/\w+/g, w => w[0].toUpperCase() + w.slice(1));
 }
+function removeAnotation(text) {
+    text = text.replace(/@\w+\([^)]*\)\s*|\@\w+\s*/g, '');
+    // text = text.replace(/@\w+\({[\s\S]*?\}\)\s*/g, '');
+    return text;
+}
 function createConstructor(text) {
+    text = removeAnotation(text);
     let properties = text.split(/\r?\n/).filter(x => x.length > 2).map(x => x.replace(';', ''));
     let generatedParamCode = ``;
     let generatedAddFiledCode = ``;
