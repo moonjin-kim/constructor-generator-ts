@@ -7,7 +7,7 @@
     "vscode": "^1.88.0"
   },
   "categories": [
-    "Other"
+    "Programming"
   ],
   "activationEvents": [
        "onCommand:constructor-genrator-ts.start"
@@ -17,7 +17,7 @@
     "commands": [
       {
         "command": "constructor-genrator-ts.start",
-        "title": "Hello World"
+        "title": "Constructor-Genrator"
       }
     ]
   },
